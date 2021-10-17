@@ -15,8 +15,9 @@ public class MatchingAlgorithm {
         List<Item> supplyList = supplyInput.getDataList();
         List<Item> demandList = demandInput.getDataList();
 
-        //
+        //i用来跟踪供应的指针
         int i = 0;
+        //j用来跟踪需求的指针
         int j = 0;
 
         while (true) {
