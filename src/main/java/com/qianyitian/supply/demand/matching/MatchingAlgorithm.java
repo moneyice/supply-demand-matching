@@ -11,23 +11,28 @@ public class MatchingAlgorithm {
     public MatchingOutput run(SupplyInput supplyInput, DemandInput demandInput) {
         List<MatchingResult> outputList = new ArrayList<>();
 
-        pre(supplyInput,demandInput);
+        //预处理
+        pre(supplyInput, demandInput);
 
         List<Item> supplyList = supplyInput.getDataList();
         List<Item> demandList = demandInput.getDataList();
 
+        //
         int i = 0;
         int j = 0;
 
         while (true) {
             if (i == supplyList.size() || j == demandList.size()) {
+                //一方耗尽，即退出条件
                 break;
             }
             Item supplyItem = supplyList.get(i);
             Item demandItem = demandList.get(j);
 
+            //获取两者小的值
             Integer minValue = Math.min(supplyItem.getAmount(), demandItem.getAmount());
 
+            //必定有一方归零
             supplyItem.setAmount(supplyItem.getAmount() - minValue);
             demandItem.setAmount(demandItem.getAmount() - minValue);
 
@@ -37,16 +42,19 @@ public class MatchingAlgorithm {
             log(result, supplyItem, demandItem);
 
             if (supplyItem.getAmount() == 0) {
+                //如果供应量为0，找下一个
                 i++;
-            } else {
+            }
+            if (demandItem.getAmount() == 0) {
+                //如果需求量为0，找下一个
                 j++;
             }
         }
 
+        //善后处理
+        post(outputList, supplyList, demandList);
 
-        post(outputList,supplyList,demandList);
-        
-        
+        //返回结果
         MatchingOutput matchingOutput = new MatchingOutput();
         matchingOutput.setResult(outputList);
         return matchingOutput;

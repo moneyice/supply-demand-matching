@@ -12,6 +12,4 @@ public class MatchingOutput {
     public void setResult(List<MatchingResult> result) {
         this.result = result;
     }
-
-
 }
